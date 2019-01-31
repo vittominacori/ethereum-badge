@@ -25,7 +25,15 @@ export default {
       return vars;
     },
     generateQRCode (value) {
-      return QRCode.toDataURL(value);
+      return QRCode.toDataURL(
+        value,
+        {
+          color: {
+            dark: '#000', // Blue dots
+            light: '#0000', // Transparent background
+          },
+        }
+      );
     },
   },
 };

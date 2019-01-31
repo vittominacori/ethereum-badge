@@ -1,7 +1,7 @@
 <template>
     <b-row class="mt-4 p-0">
         <b-col lg="6" offset-lg="3">
-            <b-card bg-variant="light">
+            <b-card title="Create your badge" bg-variant="light">
                 <b-form @submit.prevent="createBadgePage" class="mt-3">
                     <b-row>
                         <b-col lg="12">
