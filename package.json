@@ -1,0 +1,45 @@
+{
+  "title": "Ethereum Badge",
+  "name": "ethereum-badge",
+  "version": "1.0.0",
+  "description": "A simple DApp that allows you creating an Ethereum badge for your address to share or embed in your website.",
+  "scripts": {
+    "lint:vue": "eslint .vuepress --ext .vue,.js",
+    "lint:vue:fix": "eslint .vuepress --ext .vue,.js --fix",
+    "lint": "eslint .vuepress",
+    "lint:fix": "eslint .vuepress --fix",
+    "dev": "vuepress dev",
+    "build": "vuepress build",
+    "deploy": "vuepress build && sh scripts/deploy.sh"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/vittominacori/ethereum-badge/issues"
+  },
+  "license": "MIT",
+  "author": "Vittorio Minacori (https://github.com/vittominacori)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vittominacori/ethereum-badge.git"
+  },
+  "dependencies": {
+    "web3": "0.20.6"
+  },
+  "devDependencies": {
+    "@saeris/vue-spinners": "^1.0.8",
+    "babel-eslint": "^10.0.1",
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "eslint": "^5.12.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "node-sass": "^4.11.0",
+    "qrcode": "^1.3.3",
+    "sass-loader": "^7.1.0",
+    "vee-validate": "^2.1.7",
+    "vue-eslint-parser": "^5.0.0",
+    "vuepress": "^0.14.8"
+  }
+}
