@@ -2,12 +2,12 @@
     <b-navbar v-if="!embedded" toggleable="md" fixed="bottom" variant="light">
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-        <b-navbar-brand to="/"><b-img :src="$withBase('/assets/images/base-token.png')" height="24" /> Ethereum Badge</b-navbar-brand>
+        <b-navbar-brand to="/"><b-img :src="$withBase('/assets/images/base-token.png')" height="24" /> ETHBadge</b-navbar-brand>
 
         <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav>
                 <b-nav-item to="/create.html">Create your Badge</b-nav-item>
-                <b-nav-item :href="$withBase('detail.html?address=0xB5c64c7d6b374aD738e314eAa7bCC07AEc194B7b')">View sample</b-nav-item>
+                <b-nav-item :href="$withBase('detail.html?address=0x158D6727B17aaBa726D7318ac7dcA5edf8fAf6f8')">View sample</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">

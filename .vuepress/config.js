@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Create you Ethereum Badge',
+  title: 'Create your Ethereum Badge',
   description: 'A simple DApp that allows you creating an Ethereum badge for your address to share and embed.',
   base: '/ethereum-badge/',
   ga: 'UA-115756440-2',
@@ -10,7 +10,7 @@ module.exports = {
     ['meta', { property: 'og:image', content: 'https://vittominacori.github.io/ethereum-badge/assets/images/ethereum-badge.jpg' }], // eslint-disable-line max-len
     ['meta', { property: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { property: 'twitter:image', content: 'https://vittominacori.github.io/ethereum-badge/assets/images/ethereum-badge.jpg' }], // eslint-disable-line max-len
-    ['meta', { property: 'twitter:title', content: 'Ethereum Badge | Create you Ethereum Badge' }],
+    ['meta', { property: 'twitter:title', content: 'ETHBadge | Create your Ethereum Badge' }],
     ['script', { src: '/assets/js/web3.min.js' }],
   ],
   defaultNetwork: 'mainnet',

@@ -11,36 +11,40 @@
                 <router-link :to="$withBase('create.html')">Try creating your badge</router-link>
             </b-card>
         </b-col>
-        <b-col v-if="loaded" lg="6" offset-lg="3" class="mt-md-4 p-0">
-            <b-card no-body bg-variant="light">
+        <b-col v-if="loaded" lg="6" offset-lg="3" class="mt-4 p-0">
+            <b-card no-body footer-class="p-2">
                 <b-media>
                     <b-img v-if="badge.address" slot="aside" fluid-grow :src="badge.qrcode" :alt="badge.address" />
-                    <h4 class="card-title my-3">Your address</h4>
+                    <h4 class="card-title my-3">Send ETH to the following address</h4>
                     <h6 class="card-subtitle text-muted address">{{ badge.address }}</h6>
-                    <div class="mt-3">
-                        <b-link class="text-secondary mr-3" :href="this.network.current.etherscanLink + '/address/' + badge.address" target="_blank">
-                            View on Etherscan
-                        </b-link>
-                        <b-link class="text-secondary" @click="shareBadge">
-                            Share or Embed
-                        </b-link>
-                    </div>
+                    <b-link class="text-muted" :href="this.network.current.etherscanLink + '/address/' + badge.address" target="_blank">
+                        <small>View on Etherscan</small>
+                    </b-link>
+                    <p class="lead">
+                        Current balance: <b>{{ badge.balance }} ETH</b>
+                    </p>
                 </b-media>
                 <div slot="footer" class="text-center">
-                    <b-form @submit.prevent="sendDonation" class="py-2">
+                    <small v-if="trx.hash">
+                        Your hash:
+                        <b-link class="text-secondary" :href="trx.link" target="_blank">
+                            <small>{{ trx.hash }}</small>
+                        </b-link>
+                    </small>
+                    <b-form v-else @submit.prevent="sendDonation">
                         <b-input-group>
                             <b-form-input
                                     id="yourDonation"
                                     name="yourDonation"
                                     placeholder="Your donation"
-                                    :disabled="loading"
+                                    :disabled="makingTransaction"
                                     v-model.trim="donation"
                                     v-validate="{ required: true, decimal: 4 }"
                                     data-vv-as="donation"
                                     :class="{'is-invalid': errors.has('yourDonation')}">
                             </b-form-input>
                             <b-input-group-append>
-                                <b-button :disabled="loading" type="submit" variant="success">Send</b-button>
+                                <b-button :disabled="makingTransaction" type="submit" variant="outline-info">Send</b-button>
                             </b-input-group-append>
                         </b-input-group>
                         <small v-show="errors.has('yourDonation')" class="text-danger">
@@ -82,9 +86,12 @@
                 </b-row>
             </b-modal>
         </b-col>
-        <b-col lg="6" offset-lg="3" class="text-right p-0">
+        <b-col lg="6" offset-lg="3" class="text-right p-0 pr-2">
             <b-link v-if="embedded" :href="$withBase('/')" target="_blank">
-                <small class="text-muted">Powered by EthereumBadge</small>
+                <small class="text-muted">Powered by ETHBadge</small>
+            </b-link>
+            <b-link v-else @click="shareBadge">
+                <small class="text-muted">Share or Embed</small>
             </b-link>
         </b-col>
     </b-row>
@@ -104,12 +111,18 @@
       return {
         loaded: false,
         loading: true,
+        makingTransaction: false,
         donation: '',
         badge: {
           address: '',
+          balance: 0,
           link: '',
           embed: '',
           qrcode: '',
+        },
+        trx: {
+          hash: '',
+          link: '',
         },
       };
     },
@@ -135,15 +148,61 @@
 
           this.badge.qrcode = await this.generateQRCode(this.badge.address);
           this.badge.link = window.location.origin + this.$withBase(`/detail.html?address=${this.badge.address}`);
-          this.badge.embed = `<iframe src="${this.badge.link}&embedded=1" style="border:none; overflow:hidden; width: 520px; max-width: 100%; height: 320px" scrolling="no" frameborder="0" allowTransparency="true"></iframe>`; // eslint-disable-line max-len
+          this.badge.embed = `<iframe src="${this.badge.link}&embedded=1" style="border:none; overflow:hidden; width: 570px; max-width: 100%; height: 240px" scrolling="no" frameborder="0" allowTransparency="true"></iframe>`; // eslint-disable-line max-len
+
+          this.web3.eth.getBalance(
+            this.badge.address,
+            (err, balance) => {
+              if (!err) {
+                this.badge.balance = parseFloat(this.web3.fromWei(balance)).toFixed(4);
+              } else {
+                console.log(err);
+              }
+            },
+          );
 
           this.loaded = true;
         }
       },
       sendDonation () {
-        this.$validator.validateAll().then((result) => {
+        this.$validator.validateAll().then(async (result) => {
           if (result) {
-            console.log('TODO');
+            if (!this.metamask.installed) {
+              alert('Please verify that you have MetaMask installed and unlocked.');
+              return;
+            }
+
+            if (this.metamask.netId !== this.network.current.id) {
+              alert(`You are on the wrong Network. Please switch MetaMask on ${this.network.current.name}.`);
+              return;
+            }
+
+            try {
+              if (!this.legacy) {
+                await this.web3Provider.enable();
+              }
+
+              this.makingTransaction = true;
+
+              this.web3.eth.sendTransaction({
+                  value: this.web3.toWei(this.donation, 'ether'),
+                  from: this.web3.eth.accounts[0],
+                  to: this.badge.address,
+                },
+                (err, trxHash) => {
+                  if (!err) {
+                    this.trx.hash = trxHash;
+                    this.trx.link = this.network.current.etherscanLink + '/tx/' + this.trx.hash;
+                  } else {
+                    alert('Some error occurred. Maybe you rejected the transaction or you have MetaMask locked!');
+                  }
+                  this.makingTransaction = false;
+                }
+              );
+            } catch (e) {
+              console.log(e);
+              alert('Cannot connect. Please verify that you have MetaMask installed and unlocked.');
+            }
           }
         });
       },

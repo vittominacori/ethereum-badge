@@ -3,23 +3,23 @@
         <b-col lg="8" offset-lg="2">
             <b-jumbotron bg-variant="light" header-level="4">
                 <template slot="header">
-                    Ethereum Badge
+                    ETHBadge
                 </template>
                 <template slot="lead">
                     {{ $site.title }}
                 </template>
                 <hr class="my-4">
-                <p>Create a button or an embeddable widget for your address</p>
+                <p class="lead">Create an Ethereum badge for your address to share or embed in your website.</p>
                 <b-button size="lg"
                           variant="outline-success"
                           class="mt-2"
                           :to="$withBase('create.html')">
-                    Create page
+                    Create badge
                 </b-button>
                 <b-button size="lg"
                           variant="outline-primary"
                           class="mt-2"
-                          :to="$withBase('detail.html?address=0xB5c64c7d6b374aD738e314eAa7bCC07AEc194B7b')">
+                          :to="$withBase('detail.html?address=0x158D6727B17aaBa726D7318ac7dcA5edf8fAf6f8')">
                     View sample
                 </b-button>
             </b-jumbotron>

@@ -1,4 +1,4 @@
-# Ethereum Badge
+# ETHBadge
 
 ## DIST ONLY
 This branch contains only the dist files from the [master branch](https://github.com/vittominacori/ethereum-badge/tree/master), DO NOT make any changes directly to this branch, instead make your changes on the `master` branch and then run the deploy script.

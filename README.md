@@ -2,7 +2,7 @@
 component: Home
 ---
 
-# Ethereum Badge
+# ETHBadge
 
 A simple DApp that allows you creating an Ethereum badge for your address to share or embed in your website.
 
