@@ -7,7 +7,7 @@ export default {
     };
   },
   mounted () {
-    this.embedded = this.getParam('embedded') || false;
+    this.embedded = this.getParam('embedded') === '1';
   },
   methods: {
     getParam (param) {

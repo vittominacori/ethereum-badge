@@ -7,7 +7,6 @@
         <b-collapse is-nav id="nav_collapse">
             <b-navbar-nav>
                 <b-nav-item to="/create.html">Create your Badge</b-nav-item>
-                <b-nav-item :href="$withBase('detail.html?address=0x158D6727B17aaBa726D7318ac7dcA5edf8fAf6f8')">View sample</b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
