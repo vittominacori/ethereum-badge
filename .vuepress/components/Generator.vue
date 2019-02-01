@@ -28,7 +28,7 @@
                     </b-row>
                     <b-row>
                         <b-col lg="6" class="mt-3">
-                            <b-button size="lg" variant="outline-success" type="submit">Create your badge</b-button>
+                            <b-button size="lg" variant="outline-info" type="submit">Create your badge</b-button>
                         </b-col>
                     </b-row>
                 </b-form>
