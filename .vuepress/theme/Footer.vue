@@ -12,6 +12,7 @@
             <b-navbar-nav class="ml-auto">
                 <b-nav-item disabled>&copy; 2019</b-nav-item>
                 <b-nav-item href="https://github.com/vittominacori" target="_blank">@vittominacori</b-nav-item>
+                <b-nav-item :to="$withBase('detail.html?address=0x158D6727B17aaBa726D7318ac7dcA5edf8fAf6f8')">Donate</b-nav-item>
                 <b-nav-item href="https://github.com/vittominacori/ethereum-badge" target="_blank">Source code</b-nav-item>
             </b-navbar-nav>
         </b-collapse>
