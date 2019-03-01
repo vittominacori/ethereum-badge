@@ -39,7 +39,7 @@
                                     placeholder="Your donation"
                                     :disabled="makingTransaction"
                                     v-model.trim="donation"
-                                    v-validate="{ required: true, decimal: 4 }"
+                                    v-validate="{ required: true, decimal: 4, min_value: 0.0001 }"
                                     data-vv-as="donation"
                                     :class="{'is-invalid': errors.has('yourDonation')}">
                             </b-form-input>
