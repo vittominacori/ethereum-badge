@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{224:function(t,e,l){"use strict";l.r(e);var n={name:"Detail"},s=l(5),a=Object(s.a)(n,function(){var t=this.$createElement,e=this._self._c||t;return e("b-row",[e("b-col",{staticClass:"mt-4 p-0",attrs:{lg:"6","offset-lg":"3"}},[e("ui--badge")],1)],1)},[],!1,null,null,null);e.default=a.exports}}]);
