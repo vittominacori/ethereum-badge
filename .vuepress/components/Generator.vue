@@ -71,7 +71,7 @@
         }
       },
       createBadgePage () {
-        this.$validator.validateAll().then((result) => {
+        this.$validator.validateAll().then((result) => { // eslint-disable-line promise/catch-or-return
           if (result) {
             document.location.href = this.$withBase(`detail.html?address=${this.address}`);
           }

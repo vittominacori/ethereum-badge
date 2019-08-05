@@ -17,7 +17,9 @@
                     <b-img v-if="badge.address" slot="aside" fluid-grow :src="badge.qrcode" :alt="badge.address" />
                     <h4 class="card-title my-3">Send ETH to the following address</h4>
                     <h6 class="card-subtitle text-muted address">{{ badge.address }}</h6>
-                    <b-link class="text-muted" :href="this.network.current.etherscanLink + '/address/' + badge.address" target="_blank">
+                    <b-link class="text-muted"
+                            :href="this.network.current.etherscanLink + '/address/' + badge.address"
+                            target="_blank">
                         <small>View on Etherscan</small>
                     </b-link>
                     <p class="lead">
@@ -44,7 +46,9 @@
                                     :class="{'is-invalid': errors.has('yourDonation')}">
                             </b-form-input>
                             <b-input-group-append>
-                                <b-button :disabled="makingTransaction" type="submit" variant="outline-info">Send</b-button>
+                                <b-button :disabled="makingTransaction" type="submit" variant="outline-info">
+                                    Send
+                                </b-button>
                             </b-input-group-append>
                         </b-input-group>
                         <small v-show="errors.has('yourDonation')" class="text-danger">
@@ -166,7 +170,7 @@
               if (!err) {
                 this.badge.balance = parseFloat(this.web3.fromWei(balance)).toFixed(4);
               } else {
-                console.log(err);
+                console.log(err); // eslint-disable-line no-console
               }
             },
           );
@@ -175,7 +179,7 @@
         }
       },
       sendDonation () {
-        this.$validator.validateAll().then(async (result) => {
+        this.$validator.validateAll().then(async (result) => { // eslint-disable-line promise/catch-or-return
           if (result) {
             if (!this.metamask.installed) {
               alert('Please verify that you have MetaMask installed and unlocked.');
@@ -188,29 +192,32 @@
             }
 
             try {
-              if (!this.legacy) {
-                await this.web3Provider.enable();
-              }
+              ethereum.enable() // eslint-disable-line promise/no-nesting
+                .then((accounts) => {
+                  this.makingTransaction = true;
 
-              this.makingTransaction = true;
-
-              this.web3.eth.sendTransaction({
-                  value: this.web3.toWei(this.donation, 'ether'),
-                  from: this.web3.eth.accounts[0],
-                  to: this.badge.address,
-                },
-                (err, trxHash) => {
-                  if (!err) {
-                    this.trx.hash = trxHash;
-                    this.trx.link = this.network.current.etherscanLink + '/tx/' + this.trx.hash;
-                  } else {
-                    alert('Some error occurred. Maybe you rejected the transaction or you have MetaMask locked!');
-                  }
-                  this.makingTransaction = false;
-                }
-              );
+                  this.web3.eth.sendTransaction(
+                    {
+                      value: this.web3.toWei(this.donation, 'ether'),
+                      from: accounts[0],
+                      to: this.badge.address,
+                    },
+                    (err, trxHash) => {
+                      if (!err) {
+                        this.trx.hash = trxHash;
+                        this.trx.link = this.network.current.etherscanLink + '/tx/' + this.trx.hash;
+                      } else {
+                        alert('Some error occurred. Maybe you rejected the transaction or you have MetaMask locked!');
+                      }
+                      this.makingTransaction = false;
+                    }
+                  );
+                })
+                .catch(function (reason) {
+                  console.log(reason); // eslint-disable-line no-console
+                });
             } catch (e) {
-              console.log(e);
+              console.log(e); // eslint-disable-line no-console
               alert('Cannot connect. Please verify that you have MetaMask installed and unlocked.');
             }
           }
