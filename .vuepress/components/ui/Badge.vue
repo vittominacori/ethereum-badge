@@ -192,7 +192,7 @@
             }
 
             try {
-              ethereum.enable() // eslint-disable-line promise/no-nesting
+              this.web3Provider.enable() // eslint-disable-line promise/no-nesting
                 .then((accounts) => {
                   this.makingTransaction = true;
 
